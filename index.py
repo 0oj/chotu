@@ -1,4 +1,7 @@
 import speech_recognition as sr
+import pyttsx3
+
+engine = pyttsx3.init()
 
 r = sr.Recognizer()
 
@@ -7,19 +10,26 @@ def getSpeech(text):
         print(text)
         return r.listen(source)
 
-
-try:
-    text = r.recognize_google(getSpeech('Yeah: '))
-
-    if text == 'Chotu' :
-        command = r.recognize_google(getSpeech('Yes master Ooj...'))
-
-        if command == 'weather':
-            print("IDK, just look up at the sky you lazy people")
-        else:
-            print(command)
+def response(command):
+    if command == 'weather':
+        return "I. Don't. Know, just look up at the sky you lazy people"
     else:
-        print(text)
+        return 'You said ' + command + "I don't recognise this command."
 
-except Exception as e:
-    print(e)
+
+engine.say('I am ready')
+engine.runAndWait()
+text = r.recognize_google(getSpeech('Yeah: '))
+
+if text == 'Chotu' :
+    engine.say('Yes master Oje')
+    engine.runAndWait()
+
+    command = r.recognize_google(getSpeech('\nYes master Ooj...'))
+
+    engine.say(response(command))
+    engine.runAndWait()
+
+else:
+    engine.say('You said ' + text + "I don't recognise this command.")
+    engine.runAndWait()
