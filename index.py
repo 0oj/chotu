@@ -2,16 +2,22 @@ import speech_recognition as sr
 
 r = sr.Recognizer()
 
+def getSpeech(text):
+    with sr.Microphone() as source:
+        print(text)
+        return r.listen(source)
 
-with sr.Microphone() as source:
-    print('Say: ')
-    audio = r.listen(source)
 
 try:
-    text = r.recognize_google(audio)
+    text = r.recognize_google(getSpeech('Yeah: '))
 
     if text == 'Chotu' :
-        print('Yes master Ooj...')
+        command = r.recognize_google(getSpeech('Yes master Ooj...'))
+
+        if command == 'weather':
+            print("IDK, just look up at the sky you lazy people")
+        else:
+            print(command)
     else:
         print(text)
 
