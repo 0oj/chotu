@@ -1,0 +1,9 @@
+close the door
+open the door
+shut the window
+close the lights
+turn on the lights
+turn off the lights
+turn on the WiFi
+turn off the WiFi
+close the windows

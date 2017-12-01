@@ -17,19 +17,31 @@ def response(command):
         return 'You said ' + command + "I don't recognise this command."
 
 
-engine.say('I am ready')
-engine.runAndWait()
-text = r.recognize_google(getSpeech('Yeah: '))
+# engine.say('I am ready')
+# engine.runAndWait()
+while True:
+    try:
+        text = r.recognize_google(getSpeech('Yeah: '))
 
-if text == 'Chotu' :
-    engine.say('Yes master Oje')
-    engine.runAndWait()
+        if text == 'Chotu' :
+            engine.say('Yes master Oje')
+            engine.runAndWait()
 
-    command = r.recognize_google(getSpeech('\nYes master Ooj...'))
+            command = r.recognize_google(getSpeech('\nYes master Ooj...'))
 
-    engine.say(response(command))
-    engine.runAndWait()
+            engine.say(response(command))
+            engine.runAndWait()
 
-else:
-    engine.say('You said ' + text + "I don't recognise this command.")
-    engine.runAndWait()
+            continue
+
+        else:
+            print(text)
+            engine.say('You said ' + text + "I don't recognise this command.")
+            engine.runAndWait()
+
+            continue
+    except sr.UnknownValueError:
+        engine.say('SAY SOMETHING YOU IDIOT!')
+        engine.runAndWait()
+
+        continue

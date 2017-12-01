@@ -1,0 +1,7 @@
+door
+close the door
+windows
+window
+light
+lights
+open the door

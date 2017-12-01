@@ -1,67 +1,5 @@
-// const Alexa = require('alexa-sdk');
-// var request = require('request');
-//
-// exports.handler = function(event, context, callback) {
-//   var alexa = Alexa.handler(event, context, callback);
-//   alexa.registerHandlers(handlers);
-//   alexa.execute();
-// };
-//
-// var handlers = {
-//     'LaunchRequest': function () {
-//       this.emit(':ask', 'Chotu can '+
-//                         'Make a new profile for you.'+
-//                         'What do you want it to do?', 'What do you want it to do?');
-//     },
-//
-//     'AddProfileIntent': function(){
-//
-//       var person = {
-//         name: this.event.request.intent.slots.name.value,
-//         phone: this.event.request.intent.slots.phone.value
-//       }
-//
-//       person = JSON.stringify(person)
-//
-//     //   var options = {
-//     //     host: '192.168.1.6',
-//     //     port: 10002,
-//     //     path: 'api/',
-//     //     method: 'POST',
-//     //     headers: {
-//     //       'Content-Type': 'aplication/json'
-//     //     }
-//     //   }
-//     //
-//     //   var request = http.request(options, function(res){
-//     //     res.setEncoding('utf8')
-//     //   });
-//     //
-//     //   request.write(person)
-//     //   request.end()
-//     //
-//
-//       request.post(
-//         '192.168.1.6/api/',
-//         {
-//           json: person
-//         },
-//         function (error, response, body) {
-//             if (!error && response.statusCode == 200) {
-//               this.emit(':tell', 'Profile added!')
-//             } else if(error){
-//               this.emit(':tell', 'Crap! We have an error. Here\'s what it says, ' + error)
-//             }
-//         }
-//       );
-//     }
-//
-//
-//  };
-
-'use strict';
-
 const Alexa = require('alexa-sdk');
+const request = require('request');
 
 exports.handler = (event, context) => {
   const alexa = Alexa.handler(event, context);
@@ -122,7 +60,7 @@ const handlers = {
 
       //Delegate to Dialog Manager when needed
       //<reference to docs>
-      if (dialogState == "STARTED" || dialogState == "IN_PROGRESS") { 
+      if (dialogState == "STARTED" || dialogState == "IN_PROGRESS") {
         this.emit(":delegate");
       }
     } catch(err) {
@@ -134,9 +72,22 @@ const handlers = {
     let cardContent = speechOutput;
 
     this.response.cardRenderer(cardTitle, cardContent);
-    // this.response.speak(speechOutput);
-    this.response.speak('Yo yo yo yo yo Ooj is the best')
 
-    this.emit(':responseReady');
+
+    // ALL THE GOOOOD STUFF
+
+    var person = {
+      name: this.event.request.intent.slots.name.value,
+      phone: this.event.request.intent.slots.phone.value
+    }
+
+    request.post({
+      url: 'http://192.168.1.6:10002/person',
+      form: person
+    }, (err, httpRes, body) => {
+      this.response.speak('Person saved successfully! Ooj is awesome!')
+    });
+
+    this.emit(':responseReady')
   }
 };
