@@ -2,7 +2,8 @@ const Router = require('express').Router();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
-Router.use(bodyParser.json() && bodyParser.urlencoded({extended: true}))
+Router.use(bodyParser.json())
+Router.use(bodyParser.urlencoded({extended: true}))
 
 
 Router.post('/', function(req, res){
